@@ -1,4 +1,3 @@
-// src/App.tsx
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from './pages/Login';
@@ -22,7 +21,6 @@ function App() {
      <Routes>
       <Route path="/login" element={<Login />} />
 
-      {/* Protected Dashboard */}
       <Route
         path="/"
         element={
@@ -32,12 +30,9 @@ function App() {
         }
       >
         <Route path="users" element={<User />} />
-        <Route path="videos" element={<div>Videos Page</div>} />
-        <Route path="uploads" element={<div>Uploads Page</div>} />
         <Route index element={<Navigate to="users" replace />} />
       </Route>
 
-      {/* Catch all */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

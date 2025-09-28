@@ -47,7 +47,7 @@ export const fetchUsers = (page = 1): Promise<AxiosResponse<UsersResponse>> =>
 export const createUser = (data: User): Promise<AxiosResponse<CreateUpdateUserResponse>> =>
   API.post('/users', data);
 
-export const updateUser = (id: number | string, data: User): Promise<AxiosResponse<CreateUpdateUserResponse>> =>
+export const updateUser = (id: number | string, data: Partial<User>) =>
   API.put(`/users/${id}`, data);
 
 export const deleteUserApi = (id: number | string): Promise<AxiosResponse<void>> =>

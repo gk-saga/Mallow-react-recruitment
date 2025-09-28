@@ -1,0 +1,28 @@
+.user-card {
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+}
+
+.user-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #75757587;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: 8px;
+}
+
+.user-card:hover .user-card-overlay {
+  opacity: 1;
+}

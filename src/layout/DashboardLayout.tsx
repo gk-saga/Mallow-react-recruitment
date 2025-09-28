@@ -1,85 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     LogoutOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    UserOutlined,
 } from '@ant-design/icons';
-import { Button, Dropdown, Layout, Menu, theme } from 'antd';
+import { Button, Layout, Popconfirm, Space, theme, Typography } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
-
-const { Header, Sider, Content } = Layout;
+import { logout } from '../redux/slice/authSlice';
+import type { AppDispatch } from '../redux';
+import { useDispatch } from 'react-redux';
+const { Header, Content } = Layout;
 
 const DashboardLayout: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
+     const dispatch = useDispatch<AppDispatch>();
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const handleLogout = () => {
-        localStorage.removeItem("authToken");
+    const handleLogout = async () => {
+        await dispatch(logout())
         navigate("login")
     };
 
-    const menuItems = [
-        {
-            key: "logout",
-            icon: <LogoutOutlined />,
-            label: <span onClick={handleLogout}>Logout</span>,
-        },
-    ];
-
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div className="demo-logo-vertical" style={{ height: 32, margin: 16, background: '#fff' }} />
-                <Menu
-                    theme="dark"
-                    mode="inline"
-                    defaultSelectedKeys={['1']}
-                    onClick={({ key }) => {
-                        if (key === '1') navigate('/users');
-                    }}
-                    items={[
-                        {
-                            key: '1',
-                            icon: <UserOutlined />,
-                            label: 'Users',
-                        }
-                    ]}
-                />
-            </Sider>
-
             <Layout>
                 <Header style={{
                     padding: "0 16px",
-                    background: colorBgContainer,
+                    background: '#001529',
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-end",
                     alignItems: "center",
                 }}>
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
-                    <Dropdown menu={{ items: menuItems }} placement="bottomRight">
-                        <Button
-                            type="text"
-                            icon={<UserOutlined />}
-                            style={{ fontSize: "16px" }}
+                    <Space size="middle">
+                        <Typography.Text style={{ color: "white" }}>
+                            Elon Musk
+                        </Typography.Text>
+                        <Popconfirm
+                            title="Are you sure you want to logout?"
+                            onConfirm={handleLogout} 
+                            okText="Yes"
+                            cancelText="No"
                         >
-                            Profile
-                        </Button>
-                    </Dropdown>
+                            <Button
+                                type="primary"
+                                danger
+                                icon={<LogoutOutlined />}
+                            />
+                        </Popconfirm>
+
+                    </Space>
                 </Header>
 
-                {/* Page Content */}
                 <Content
                     style={{
                         margin: '24px 16px',
@@ -89,7 +59,7 @@ const DashboardLayout: React.FC = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    <Outlet /> {/* Renders child route */}
+                    <Outlet />
                 </Content>
             </Layout>
         </Layout>
