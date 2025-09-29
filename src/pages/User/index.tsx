@@ -19,7 +19,7 @@ const Users: React.FC = () => {
     const [selectedUser, setSelectedUser] = useState<any>(null);
 
     const [viewMode, setViewMode] = useState<"list" | "card">("list");
-    const { Title, Text } = Typography;
+    const { Title } = Typography;
 
     useEffect(() => {
         dispatch(getUsers(1));
